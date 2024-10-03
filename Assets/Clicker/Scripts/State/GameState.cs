@@ -5,6 +5,7 @@ namespace Assets.Project.Scripts.Game.State
     [Serializable]
     public class GameState
     {
-        public double softCoins;
+        public double SoftCoins;
+        public float Energy;
     }
 }

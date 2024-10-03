@@ -1,16 +1,15 @@
-﻿using Assets.Project.Scripts.Game.State;
+﻿using R3;
 
 namespace Assets.Clicker.Scripts.State
 {
     public interface IGameStateProvider
     {
-        public GameState GameState { get; }
+        public GameStateProxy GameState { get; }
 
-        public GameState LoadGameState();
+        public Observable<GameStateProxy> LoadGameState();
 
-        public bool SaveGameState();
+        public Observable<bool> SaveGameState();
 
-        public bool ResetGameState();
-
+        public Observable<bool> ResetGameState();
     }
 }

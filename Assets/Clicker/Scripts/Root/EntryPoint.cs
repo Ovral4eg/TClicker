@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using R3;
 
 namespace Assets.Clicker.Scripts.Root
 {
@@ -52,10 +53,12 @@ namespace Assets.Clicker.Scripts.Root
 
             yield return LoadScene(Scenes.GAME);
 
-            _gameStateProvider.LoadGameState();            
- 
+            var isGameStateLoaded = false;
+            _gameStateProvider.LoadGameState().Subscribe(_ => isGameStateLoaded = true);
+            yield return new WaitUntil(() => isGameStateLoaded);
+
             var sceneEntryPoint = Object.FindFirstObjectByType<GameSceneEntryPoint>();
-            sceneEntryPoint.Run(_gameStateProvider);
+            sceneEntryPoint.Run(_gameStateProvider, _uiRoot);
 
             _uiRoot.HideLoadingScreen();
         }      

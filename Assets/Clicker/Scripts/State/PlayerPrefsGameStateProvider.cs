@@ -1,4 +1,5 @@
 ﻿using Assets.Project.Scripts.Game.State;
+using R3;
 using UnityEngine;
 
 namespace Assets.Clicker.Scripts.State
@@ -8,54 +9,57 @@ namespace Assets.Clicker.Scripts.State
         //const
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
 
+        //fields
+        private GameState _gameStateOrigin;
+
         //properties
-        public GameState GameState { get; private set; }
+        public GameStateProxy GameState { get; private set; }
 
         //public methods
-        public GameState LoadGameState()
+        public Observable<GameStateProxy> LoadGameState()
         {
             if (PlayerPrefs.HasKey(GAME_STATE_KEY) == false )
             {
                 GameState = CreateGameStateFromSettings();
-
-                Debug.Log($"create default game state");
 
                 SaveGameState();
             }
             else
             {
                 var json = PlayerPrefs.GetString(GAME_STATE_KEY);
-                GameState = JsonUtility.FromJson<GameState>(json);
+                _gameStateOrigin = JsonUtility.FromJson<GameState>(json);
+                GameState = new GameStateProxy(_gameStateOrigin);
             }
 
-            return GameState;
+            return Observable.Return(GameState); 
         }
 
-        public bool SaveGameState()
+        public Observable<bool> SaveGameState()
         {
-            var json = JsonUtility.ToJson(GameState, true);
+            var json = JsonUtility.ToJson(_gameStateOrigin, true);
             PlayerPrefs.SetString(GAME_STATE_KEY, json);
 
-            return true;
+            return Observable.Return(true);
         }
 
-        public bool ResetGameState()
+        public Observable<bool> ResetGameState()
         {
             GameState = CreateGameStateFromSettings();
             SaveGameState();
 
-            return true;
+            return Observable.Return(true);
         }       
 
         //private methods
-        private GameState CreateGameStateFromSettings()
+        private GameStateProxy CreateGameStateFromSettings()
         {
-            var gameState = new GameState()
+            _gameStateOrigin = new GameState()
             {
-                softCoins = 0
+                SoftCoins = 0,
+                Energy=10,
             };
 
-            return gameState;
+            return new GameStateProxy(_gameStateOrigin);
         }
     }
 }
