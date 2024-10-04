@@ -10,13 +10,16 @@ using UnityEngine.UI;
 namespace Assets.Clicker.Scripts.GameScene.View
 {
 
-    public class EnergyValueView:MonoBehaviour
+    public class EnergyView:MonoBehaviour
     {
         IDisposable _subscribe;
         [SerializeField] private TextMeshProUGUI _textValue;
         [SerializeField] private Button _buttonRequestEnergy;
+        private Vector3 _originPosition;
         public void Bind(GameStateProxy gameState, GameController gameController)
         {
+            _originPosition= transform.position;
+
             UpdateValue(gameState.Energy.CurrentValue,false);
 
             _subscribe = gameState.Energy.Skip(1).Subscribe(e => UpdateValue(e,true));
@@ -44,7 +47,9 @@ namespace Assets.Clicker.Scripts.GameScene.View
 
         public void LowEnergyAnimation()
         {
-            transform.DOShakePosition(2, 5, 5);
+            var animationSequence = DOTween.Sequence();
+            animationSequence.Append(transform.DOShakePosition(1, 5, 5));
+            animationSequence.Append(transform.DOMove(_originPosition, 0));
         }
 
         private void OnDestroy()

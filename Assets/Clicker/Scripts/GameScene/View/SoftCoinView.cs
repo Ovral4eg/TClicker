@@ -16,7 +16,7 @@ namespace Assets.Clicker.Scripts.GameScene.View
 
         public void Bind(GameStateProxy gamestate)
         {
-            _originPosition = transform.position;
+            _originPosition = transform.position;            
 
             UpdateValue(gamestate.SoftCoins.CurrentValue, false);
 
@@ -32,8 +32,9 @@ namespace Assets.Clicker.Scripts.GameScene.View
 
         public void DoAnimation()
         {
-            transform.position = _originPosition;
-            transform.DOShakePosition(2, 5, 5);
+            var animationSequence = DOTween.Sequence();
+            animationSequence.Append(transform.DOShakePosition(0.1f, 5, 5));
+            animationSequence.Append(transform.DOMove(_originPosition, 0.1f));
         }
 
         private void OnDestroy()

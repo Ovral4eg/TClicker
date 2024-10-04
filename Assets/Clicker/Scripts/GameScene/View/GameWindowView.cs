@@ -19,14 +19,14 @@ namespace Assets.Clicker.Scripts.GameScene.View
         [SerializeField] private AutoHarvester _autoHarvesterPrefab;
         [SerializeField] private Transform _autoHarvestersContainer;      
         [SerializeField] private SoftCoinView _softCoinCounter;
-        [SerializeField] private EnergyValueView _energy;
+        [SerializeField] private EnergyView _energy;
         [SerializeField] private ClickableItemView _clickableItem;
         [SerializeField] private HarvestRequester _harvestRequester;
         [SerializeField] private TextMeshProUGUI _textTapBonus;
 
         //properties
         public ClickableItemView ClickableItem => _clickableItem;
-        public EnergyValueView Energy => _energy;
+        public EnergyView Energy => _energy;
         public SoftCoinView SoftCoinCounter => _softCoinCounter;
 
         public void Bind(GameStateProxy gameState, GameController  gameController)
