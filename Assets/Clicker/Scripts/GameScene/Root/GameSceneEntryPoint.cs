@@ -8,7 +8,7 @@ namespace Assets.Clicker.Scripts.GameScene
     public class GameSceneEntryPoint:MonoBehaviour
     {
         [SerializeField] private GameSceneRootUi  _sceneUiRootPrefab;
-        [SerializeField] private GameHandler _gameHandler;
+        [SerializeField] private GameController _gameHandler;
         private IGameStateProvider _gameStateProvider;
         public void Run(IGameStateProvider gameStateProvider, UiRootView uiRoot )
         {
@@ -23,7 +23,6 @@ namespace Assets.Clicker.Scripts.GameScene
         private void OnApplicationQuit()
         {
             var result = _gameStateProvider.SaveGameState();
-            Debug.Log($"save result {result}");
         }
     }
 

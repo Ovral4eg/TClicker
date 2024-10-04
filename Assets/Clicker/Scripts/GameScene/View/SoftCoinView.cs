@@ -1,4 +1,5 @@
 ﻿using Assets.Clicker.Scripts.State;
+using Assets.Clicker.Scripts.Utils;
 using DG.Tweening;
 using R3;
 using System;
@@ -7,13 +8,16 @@ using UnityEngine;
 
 namespace Assets.Clicker.Scripts.GameScene.View
 {
-    public class SoftCoinValueBinder:MonoBehaviour
+    public class SoftCoinView:MonoBehaviour
     {
         IDisposable _subscribe;
         [SerializeField] private TextMeshProUGUI _textValue;
+        private Vector3 _originPosition;
 
         public void Bind(GameStateProxy gamestate)
         {
+            _originPosition = transform.position;
+
             UpdateValue(gamestate.SoftCoins.CurrentValue, false);
 
             _subscribe = gamestate.SoftCoins.Skip(1).Subscribe(e => UpdateValue(e,true));
@@ -21,9 +25,15 @@ namespace Assets.Clicker.Scripts.GameScene.View
 
         public void UpdateValue(double value, bool doAnimation)
         {
-            _textValue.text = $" {Math.Round(value,2)}";
+            _textValue.text = $"{StringHelper.GetStringFromValue(value)}";
 
-            if (doAnimation) transform.DOShakePosition(2, 5, 5);
+            if (doAnimation) DoAnimation();
+        }
+
+        public void DoAnimation()
+        {
+            transform.position = _originPosition;
+            transform.DOShakePosition(2, 5, 5);
         }
 
         private void OnDestroy()

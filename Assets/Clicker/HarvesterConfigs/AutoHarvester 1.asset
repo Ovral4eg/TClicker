@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AutoHarvester 1
   m_EditorClassIdentifier: 
   _sprite: {fileID: 21300000, guid: 6296e4b1e1bac418193950916fde7248, type: 3}
-  _baseProduction: 100
-  _time: 5
+  _baseProduction: 10
+  _time: 1

@@ -1,4 +1,5 @@
-﻿using Assets.Clicker.Scripts.State;
+﻿using Assets.Clicker.Scripts.GameScene.Game;
+using Assets.Clicker.Scripts.State;
 using DG.Tweening;
 using R3;
 using System;
@@ -8,20 +9,21 @@ using UnityEngine.UI;
 
 namespace Assets.Clicker.Scripts.GameScene.View
 {
-    public class EnergyValueBinder:MonoBehaviour
+
+    public class EnergyValueView:MonoBehaviour
     {
         IDisposable _subscribe;
         [SerializeField] private TextMeshProUGUI _textValue;
         [SerializeField] private Button _buttonRequestEnergy;
-
-        public event EventHandler OnRequestEnergy; 
-        public void Bind(GameStateProxy gameState)
+        public void Bind(GameStateProxy gameState, GameController gameController)
         {
             UpdateValue(gameState.Energy.CurrentValue,false);
 
             _subscribe = gameState.Energy.Skip(1).Subscribe(e => UpdateValue(e,true));
 
-            _buttonRequestEnergy.onClick.AddListener(() => { OnRequestEnergy?.Invoke(this, EventArgs.Empty); });
+            _buttonRequestEnergy.onClick.AddListener(() => { gameController.EnergyRequest.Invoke(); });
+
+            gameController.LowEnergyAnimation += LowEnergyAnimation;
         }
 
         public void UpdateValue(float value, bool doAnimation)
@@ -36,11 +38,11 @@ namespace Assets.Clicker.Scripts.GameScene.View
             {
                 _textValue.color = Color.red;
 
-                if (doAnimation) AnimateLowEnergy();
+                if (doAnimation) LowEnergyAnimation();
             }
         }
 
-        public void AnimateLowEnergy()
+        public void LowEnergyAnimation()
         {
             transform.DOShakePosition(2, 5, 5);
         }

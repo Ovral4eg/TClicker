@@ -62,6 +62,7 @@ MonoBehaviour:
   _energy: {fileID: 7819764565710329977}
   _clickableItem: {fileID: 7160597914234883362}
   _harvestRequester: {fileID: 3051001005919066744}
+  _textTapBonus: {fileID: 933001547652391480}
 --- !u!1 &2385303821586448361
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +200,7 @@ GameObject:
   - component: {fileID: 5172632016785606456}
   - component: {fileID: 933001547652391480}
   m_Layer: 5
-  m_Name: TapBonus
+  m_Name: TextTapBonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

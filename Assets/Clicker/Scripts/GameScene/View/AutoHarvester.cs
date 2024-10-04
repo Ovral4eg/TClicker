@@ -10,11 +10,25 @@ namespace Assets.Clicker.Scripts.GameScene.View
     {
         [SerializeField] private Image _ico;
         [SerializeField] private TextMeshProUGUI _textHarvestInfo;
+        private HarvesterConfig _harvesterConfig;
+        public float TimeToHarvest = 0;
         public void Init(HarvesterConfig harvesterConfig)
         {
+            _harvesterConfig= harvesterConfig;
+
             _ico.sprite = harvesterConfig.Sprite;
 
-            _textHarvestInfo.text = $"Добыча:\n{Math.Round(harvesterConfig.BaseProduction, 2)}\nкаждые\n{Math.Round(harvesterConfig.Time, 1)} сек";
+            _textHarvestInfo.text = $"Harvest:\n{Math.Round(harvesterConfig.BaseProduction, 2)}\nevery\n{Math.Round(harvesterConfig.Time, 1)} s";
+        }
+
+        public double GetHarvestValue()
+        {
+            return _harvesterConfig.BaseProduction;
+        }
+
+        public void UpdateTimeToHarvest()
+        {
+            TimeToHarvest = Time.time + _harvesterConfig.Time;
         }
     }
 }

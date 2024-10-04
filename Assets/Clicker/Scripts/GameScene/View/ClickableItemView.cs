@@ -8,24 +8,29 @@ using UnityEngine.UI;
 
 namespace Assets.Clicker.Scripts.GameScene.View
 {
-    public class ClickableItemBinder:MonoBehaviour,IPointerDownHandler
+    public class ClickableItemView:MonoBehaviour,IPointerDownHandler
     {
         //fileds
         IDisposable _subscribe;
         [SerializeField] private Image _itemIco;
+        private GameController _gameController;
 
-        //events
-        public event EventHandler<ClickArgs> OnItemClicked;
-
-        public void Bind(GameHandler gameHandler)
+        public void Bind(GameController gameController)
         {
-            _subscribe = gameHandler.CurrentItem.Subscribe(e => UpdateSprite(e));
+            _gameController = gameController;
+
+            _subscribe = gameController.CurrentItem.Subscribe(e => UpdateSprite(e));
+
+            gameController.ClickItem += ClickItem;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            OnItemClicked?.Invoke(this, new ClickArgs { point = eventData.position });
+            _gameController.ClickItem.Invoke(eventData.position);
+        }
 
+        private void ClickItem(Vector2 point)
+        {
             var seq = DOTween.Sequence();
             seq.Append(transform.DOScale(1.2f, 0.1f));
             seq.Append(transform.DOScale(1f, 0.1f));

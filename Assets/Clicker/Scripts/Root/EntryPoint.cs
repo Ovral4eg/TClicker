@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using R3;
+using Assets.Clicker.Scripts.Utils;
 
 namespace Assets.Clicker.Scripts.Root
 {
@@ -42,6 +43,8 @@ namespace Assets.Clicker.Scripts.Root
 
         private void Run()
         {
+            StringHelper.CalculateLetters();
+
             _coroutines.StartCoroutine(LoadAndStartGame());
         }
 

@@ -1,5 +1,3 @@
-using Assets.Clicker.Scripts.Items;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ClickableItem", menuName = "Clicker/Configs/ClickableItem", order = 0)]
@@ -13,6 +11,4 @@ public class ItemConfig : ScriptableObject
 
     [SerializeField] private float _clickCost;
     public float ClickCost => _clickCost;
-
-    public List<ItemClickModificator> Modificators;
 }
